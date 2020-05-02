@@ -1,4 +1,7 @@
 package com.cg.entity;
+
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -13,45 +17,55 @@ import javax.validation.constraints.NotNull;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-//@Component
-//@Scope("prototype")
+import com.cg.entity.Appointment;
+
 @Entity
 @Table(name="test")
 public class Test 
 {
+
+	@NotNull(message = "test Id must not be empty")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     private int testId;
 	
+	@NotEmpty(message = "test name must not be empty")
 	@Column(nullable=false)
 	private String testName;
 	
-
-	@ManyToOne
-	private DiagnosticCenter diagnosticCenter;
+	@OneToMany(mappedBy = "test",cascade = CascadeType.ALL)
+	List<Appointment>appointmentList;
 	
-	public int getTestId() {
-		return testId;
+	public Test()
+	{
+		
 	}
-
-	public void setTestId(int testId) {
-		this.testId = testId;
-	}
-
-	public String getTestName() {
-		return testName;
-	}
-
-	public void setTestName(String testName) {
+	
+	public Test(String testName)
+	{
+		super();
 		this.testName = testName;
 	}
 
-	public DiagnosticCenter getCenter() {
-		return diagnosticCenter;
+	public int getTestId() 
+	{
+		return testId;
 	}
 
-	public void setCenter(DiagnosticCenter diagnosticCenter) {
-		this.diagnosticCenter = diagnosticCenter;
+	public void setTestId(int testId)
+	{
+		this.testId = testId;
 	}
+
+	public String getTestName() 
+	{
+		return testName;
+	}
+
+	public void setTestName(String testName)
+	{
+		this.testName = testName;
+	}
+
 
 }
